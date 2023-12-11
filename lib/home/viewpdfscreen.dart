@@ -27,12 +27,16 @@ class _ViewPdfScreenState extends State<ViewPdfScreen> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : Expanded(
-              child: PDFViewer(
-                enableSwipeNavigation: true,
-                scrollDirection: Axis.vertical,
-                document: doc!,
-              ),
+          : Column(
+              children: [
+                Expanded(
+                  child: PDFViewer(
+                    enableSwipeNavigation: true,
+                    scrollDirection: Axis.vertical,
+                    document: doc!,
+                  ),
+                ),
+              ],
             ),
     );
   }

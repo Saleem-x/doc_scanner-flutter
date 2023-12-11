@@ -5,6 +5,7 @@ import 'package:doc_scanner/home/viewpdfscreen.dart';
 import 'package:doc_scanner/state/bloc/imagescanned/imagescacnned_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:edge_detection/edge_detection.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -47,6 +48,10 @@ class HomeScreen extends StatelessWidget {
                                   );
                                 }
                                 String filepath = await savePdfFile(pdf);
+                                await Clipboard.setData(
+                                  ClipboardData(text: filepath),
+                                );
+
                                 Future.delayed(
                                     const Duration(microseconds: 100), () {
                                   Navigator.push(
@@ -76,16 +81,46 @@ class HomeScreen extends StatelessWidget {
                           ),
                           itemCount: state.imagePath.length,
                           itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(0),
-                              child: SizedBox(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Image.file(
-                                    File(
-                                      state.imagePath[index],
+                            return GestureDetector(
+                              onLongPress: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text('Alert'),
+                                    content: Text(
+                                        'do you want to remove this Image'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text('no'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          context.read<ImagescacnnedBloc>().add(
+                                              DeleteimageEvent(
+                                                  idx: index,
+                                                  imgpath:
+                                                      state.imagePath[index]));
+                                        },
+                                        child: const Text('yes'),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(0),
+                                child: SizedBox(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: Image.file(
+                                      File(
+                                        state.imagePath[index],
+                                      ),
+                                      fit: BoxFit.cover,
                                     ),
-                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),

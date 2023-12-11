@@ -16,42 +16,43 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ImagescacnnedEvent {
-  String get imagepath => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String imagepath) getImagePath,
+    required TResult Function(int idx, String imgpath) deleteimageEvent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String imagepath)? getImagePath,
+    TResult? Function(int idx, String imgpath)? deleteimageEvent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String imagepath)? getImagePath,
+    TResult Function(int idx, String imgpath)? deleteimageEvent,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GetImagePathEvent value) getImagePath,
+    required TResult Function(DeleteimageEvent value) deleteimageEvent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GetImagePathEvent value)? getImagePath,
+    TResult? Function(DeleteimageEvent value)? deleteimageEvent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetImagePathEvent value)? getImagePath,
+    TResult Function(DeleteimageEvent value)? deleteimageEvent,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $ImagescacnnedEventCopyWith<ImagescacnnedEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -60,8 +61,6 @@ abstract class $ImagescacnnedEventCopyWith<$Res> {
   factory $ImagescacnnedEventCopyWith(
           ImagescacnnedEvent value, $Res Function(ImagescacnnedEvent) then) =
       _$ImagescacnnedEventCopyWithImpl<$Res, ImagescacnnedEvent>;
-  @useResult
-  $Res call({String imagepath});
 }
 
 /// @nodoc
@@ -73,28 +72,13 @@ class _$ImagescacnnedEventCopyWithImpl<$Res, $Val extends ImagescacnnedEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? imagepath = null,
-  }) {
-    return _then(_value.copyWith(
-      imagepath: null == imagepath
-          ? _value.imagepath
-          : imagepath // ignore: cast_nullable_to_non_nullable
-              as String,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$GetImagePathEventImplCopyWith<$Res>
-    implements $ImagescacnnedEventCopyWith<$Res> {
+abstract class _$$GetImagePathEventImplCopyWith<$Res> {
   factory _$$GetImagePathEventImplCopyWith(_$GetImagePathEventImpl value,
           $Res Function(_$GetImagePathEventImpl) then) =
       __$$GetImagePathEventImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({String imagepath});
 }
@@ -157,6 +141,7 @@ class _$GetImagePathEventImpl implements GetImagePathEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String imagepath) getImagePath,
+    required TResult Function(int idx, String imgpath) deleteimageEvent,
   }) {
     return getImagePath(imagepath);
   }
@@ -165,6 +150,7 @@ class _$GetImagePathEventImpl implements GetImagePathEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String imagepath)? getImagePath,
+    TResult? Function(int idx, String imgpath)? deleteimageEvent,
   }) {
     return getImagePath?.call(imagepath);
   }
@@ -173,6 +159,7 @@ class _$GetImagePathEventImpl implements GetImagePathEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String imagepath)? getImagePath,
+    TResult Function(int idx, String imgpath)? deleteimageEvent,
     required TResult orElse(),
   }) {
     if (getImagePath != null) {
@@ -185,6 +172,7 @@ class _$GetImagePathEventImpl implements GetImagePathEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(GetImagePathEvent value) getImagePath,
+    required TResult Function(DeleteimageEvent value) deleteimageEvent,
   }) {
     return getImagePath(this);
   }
@@ -193,6 +181,7 @@ class _$GetImagePathEventImpl implements GetImagePathEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(GetImagePathEvent value)? getImagePath,
+    TResult? Function(DeleteimageEvent value)? deleteimageEvent,
   }) {
     return getImagePath?.call(this);
   }
@@ -201,6 +190,7 @@ class _$GetImagePathEventImpl implements GetImagePathEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(GetImagePathEvent value)? getImagePath,
+    TResult Function(DeleteimageEvent value)? deleteimageEvent,
     required TResult orElse(),
   }) {
     if (getImagePath != null) {
@@ -214,11 +204,154 @@ abstract class GetImagePathEvent implements ImagescacnnedEvent {
   const factory GetImagePathEvent({required final String imagepath}) =
       _$GetImagePathEventImpl;
 
-  @override
   String get imagepath;
-  @override
   @JsonKey(ignore: true)
   _$$GetImagePathEventImplCopyWith<_$GetImagePathEventImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$DeleteimageEventImplCopyWith<$Res> {
+  factory _$$DeleteimageEventImplCopyWith(_$DeleteimageEventImpl value,
+          $Res Function(_$DeleteimageEventImpl) then) =
+      __$$DeleteimageEventImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int idx, String imgpath});
+}
+
+/// @nodoc
+class __$$DeleteimageEventImplCopyWithImpl<$Res>
+    extends _$ImagescacnnedEventCopyWithImpl<$Res, _$DeleteimageEventImpl>
+    implements _$$DeleteimageEventImplCopyWith<$Res> {
+  __$$DeleteimageEventImplCopyWithImpl(_$DeleteimageEventImpl _value,
+      $Res Function(_$DeleteimageEventImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? idx = null,
+    Object? imgpath = null,
+  }) {
+    return _then(_$DeleteimageEventImpl(
+      idx: null == idx
+          ? _value.idx
+          : idx // ignore: cast_nullable_to_non_nullable
+              as int,
+      imgpath: null == imgpath
+          ? _value.imgpath
+          : imgpath // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$DeleteimageEventImpl implements DeleteimageEvent {
+  const _$DeleteimageEventImpl({required this.idx, required this.imgpath});
+
+  @override
+  final int idx;
+  @override
+  final String imgpath;
+
+  @override
+  String toString() {
+    return 'ImagescacnnedEvent.deleteimageEvent(idx: $idx, imgpath: $imgpath)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DeleteimageEventImpl &&
+            (identical(other.idx, idx) || other.idx == idx) &&
+            (identical(other.imgpath, imgpath) || other.imgpath == imgpath));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, idx, imgpath);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DeleteimageEventImplCopyWith<_$DeleteimageEventImpl> get copyWith =>
+      __$$DeleteimageEventImplCopyWithImpl<_$DeleteimageEventImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String imagepath) getImagePath,
+    required TResult Function(int idx, String imgpath) deleteimageEvent,
+  }) {
+    return deleteimageEvent(idx, imgpath);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String imagepath)? getImagePath,
+    TResult? Function(int idx, String imgpath)? deleteimageEvent,
+  }) {
+    return deleteimageEvent?.call(idx, imgpath);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String imagepath)? getImagePath,
+    TResult Function(int idx, String imgpath)? deleteimageEvent,
+    required TResult orElse(),
+  }) {
+    if (deleteimageEvent != null) {
+      return deleteimageEvent(idx, imgpath);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(GetImagePathEvent value) getImagePath,
+    required TResult Function(DeleteimageEvent value) deleteimageEvent,
+  }) {
+    return deleteimageEvent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(GetImagePathEvent value)? getImagePath,
+    TResult? Function(DeleteimageEvent value)? deleteimageEvent,
+  }) {
+    return deleteimageEvent?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(GetImagePathEvent value)? getImagePath,
+    TResult Function(DeleteimageEvent value)? deleteimageEvent,
+    required TResult orElse(),
+  }) {
+    if (deleteimageEvent != null) {
+      return deleteimageEvent(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class DeleteimageEvent implements ImagescacnnedEvent {
+  const factory DeleteimageEvent(
+      {required final int idx,
+      required final String imgpath}) = _$DeleteimageEventImpl;
+
+  int get idx;
+  String get imgpath;
+  @JsonKey(ignore: true)
+  _$$DeleteimageEventImplCopyWith<_$DeleteimageEventImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

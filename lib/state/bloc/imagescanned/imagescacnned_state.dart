@@ -3,8 +3,8 @@ part of 'imagescacnned_bloc.dart';
 @freezed
 class ImagescacnnedState with _$ImagescacnnedState {
   const factory ImagescacnnedState.imageScannedState(
-      {required String? imagePath}) = ImageScannedState;
+      {required List<String> imagePath}) = ImageScannedState;
 
   factory ImagescacnnedState.initial() =>
-      const ImagescacnnedState.imageScannedState(imagePath: null);
+      const ImagescacnnedState.imageScannedState(imagePath: []);
 }

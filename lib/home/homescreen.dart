@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:doc_scanner/home/viewpdfscreen.dart';
 import 'package:doc_scanner/state/bloc/imagescanned/imagescacnned_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:edge_detection/edge_detection.dart';
@@ -8,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -15,37 +17,95 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<ImagescacnnedBloc, ImagescacnnedState>(
-        builder: (context, state) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                  child: state.when(
-                      imageScannedState: (imgpath) {
-                        return imgpath == null
-                            ? const Center(
-                                child: Text('scan doc'),
-                              )
-                            : Image.file(File(imgpath));
-                      },
-                      initial: () => Center(
-                            child: Text('scan doc'),
-                          )))
-            ],
-          );
-        },
+      body: SafeArea(
+        child: BlocBuilder<ImagescacnnedBloc, ImagescacnnedState>(
+          builder: (context, state) {
+            return state.imagePath.isEmpty
+                ? const Center(
+                    child: Text('scan images'),
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      state.imagePath.isNotEmpty
+                          ? IconButton(
+                              onPressed: () async {
+                                var pdf = pw.Document();
+                                for (var item in state.imagePath) {
+                                  final image = pw.MemoryImage(
+                                    File(item).readAsBytesSync(),
+                                  );
+                                  pdf.addPage(
+                                    pw.Page(
+                                      build: (pw.Context context) {
+                                        return pw.Center(
+                                          child: pw.Image(image),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                }
+                                String filepath = await savePdfFile(pdf);
+                                Future.delayed(
+                                    const Duration(microseconds: 100), () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ViewPdfScreen(pdfpath: filepath),
+                                    ),
+                                  );
+                                });
+                              },
+                              icon: const Icon(
+                                Icons.picture_as_pdf,
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                      Expanded(
+                        child: GridView.builder(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 10),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: .9,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                            crossAxisCount: 3,
+                          ),
+                          itemCount: state.imagePath.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(0),
+                              child: SizedBox(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image.file(
+                                    File(
+                                      state.imagePath[index],
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    ],
+                  );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           String imgpath = await getImageFromCamera();
-
           log('image aan$imgpath');
           // ignore: use_build_context_synchronously
-          context
-              .read<ImagescacnnedBloc>()
-              .add(GetImagePathEvent(imagepath: imgpath));
+          context.read<ImagescacnnedBloc>().add(
+                GetImagePathEvent(imagepath: imgpath),
+              );
         },
         child: const Icon(
           Icons.scanner_outlined,
@@ -110,12 +170,30 @@ class HomeScreen extends StatelessWidget {
       print(e);
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-
     if (success) {
       // _imagePath = imagePath;
     }
+  }
+
+  Future<String> savePdfFile(pw.Document document) async {
+    final directory = await getExternalStorageDirectory();
+    const appName = 'doc_scanner';
+    final appDirectory = Directory('${directory!.path}/$appName');
+
+    // Create the app directory if it doesn't exist
+    if (!await appDirectory.exists()) {
+      await appDirectory.create();
+    }
+
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
+    final fileName = 'document_$timestamp.pdf';
+
+    final filePath = '${appDirectory.path}/$fileName';
+
+    final file = File(filePath);
+    await file.writeAsBytes(await document.save());
+
+    print('PDF file saved at: $filePath');
+    return filePath;
   }
 }

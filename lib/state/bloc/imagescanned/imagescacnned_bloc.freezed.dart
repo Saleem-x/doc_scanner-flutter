@@ -224,43 +224,42 @@ abstract class GetImagePathEvent implements ImagescacnnedEvent {
 
 /// @nodoc
 mixin _$ImagescacnnedState {
+  List<String> get imagePath => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? imagePath) imageScannedState,
-    required TResult Function() initial,
+    required TResult Function(List<String> imagePath) imageScannedState,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String? imagePath)? imageScannedState,
-    TResult? Function()? initial,
+    TResult? Function(List<String> imagePath)? imageScannedState,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? imagePath)? imageScannedState,
-    TResult Function()? initial,
+    TResult Function(List<String> imagePath)? imageScannedState,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ImageScannedState value) imageScannedState,
-    required TResult Function(_Initial value) initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ImageScannedState value)? imageScannedState,
-    TResult? Function(_Initial value)? initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ImageScannedState value)? imageScannedState,
-    TResult Function(_Initial value)? initial,
     required TResult orElse(),
   }) =>
+      throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $ImagescacnnedStateCopyWith<ImagescacnnedState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -269,6 +268,8 @@ abstract class $ImagescacnnedStateCopyWith<$Res> {
   factory $ImagescacnnedStateCopyWith(
           ImagescacnnedState value, $Res Function(ImagescacnnedState) then) =
       _$ImagescacnnedStateCopyWithImpl<$Res, ImagescacnnedState>;
+  @useResult
+  $Res call({List<String> imagePath});
 }
 
 /// @nodoc
@@ -280,15 +281,30 @@ class _$ImagescacnnedStateCopyWithImpl<$Res, $Val extends ImagescacnnedState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? imagePath = null,
+  }) {
+    return _then(_value.copyWith(
+      imagePath: null == imagePath
+          ? _value.imagePath
+          : imagePath // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+    ) as $Val);
+  }
 }
 
 /// @nodoc
-abstract class _$$ImageScannedStateImplCopyWith<$Res> {
+abstract class _$$ImageScannedStateImplCopyWith<$Res>
+    implements $ImagescacnnedStateCopyWith<$Res> {
   factory _$$ImageScannedStateImplCopyWith(_$ImageScannedStateImpl value,
           $Res Function(_$ImageScannedStateImpl) then) =
       __$$ImageScannedStateImplCopyWithImpl<$Res>;
+  @override
   @useResult
-  $Res call({String? imagePath});
+  $Res call({List<String> imagePath});
 }
 
 /// @nodoc
@@ -302,13 +318,13 @@ class __$$ImageScannedStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? imagePath = freezed,
+    Object? imagePath = null,
   }) {
     return _then(_$ImageScannedStateImpl(
-      imagePath: freezed == imagePath
-          ? _value.imagePath
+      imagePath: null == imagePath
+          ? _value._imagePath
           : imagePath // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<String>,
     ));
   }
 }
@@ -316,10 +332,16 @@ class __$$ImageScannedStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ImageScannedStateImpl implements ImageScannedState {
-  const _$ImageScannedStateImpl({required this.imagePath});
+  const _$ImageScannedStateImpl({required final List<String> imagePath})
+      : _imagePath = imagePath;
 
+  final List<String> _imagePath;
   @override
-  final String? imagePath;
+  List<String> get imagePath {
+    if (_imagePath is EqualUnmodifiableListView) return _imagePath;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_imagePath);
+  }
 
   @override
   String toString() {
@@ -331,12 +353,13 @@ class _$ImageScannedStateImpl implements ImageScannedState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ImageScannedStateImpl &&
-            (identical(other.imagePath, imagePath) ||
-                other.imagePath == imagePath));
+            const DeepCollectionEquality()
+                .equals(other._imagePath, _imagePath));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, imagePath);
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_imagePath));
 
   @JsonKey(ignore: true)
   @override
@@ -348,8 +371,7 @@ class _$ImageScannedStateImpl implements ImageScannedState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? imagePath) imageScannedState,
-    required TResult Function() initial,
+    required TResult Function(List<String> imagePath) imageScannedState,
   }) {
     return imageScannedState(imagePath);
   }
@@ -357,8 +379,7 @@ class _$ImageScannedStateImpl implements ImageScannedState {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String? imagePath)? imageScannedState,
-    TResult? Function()? initial,
+    TResult? Function(List<String> imagePath)? imageScannedState,
   }) {
     return imageScannedState?.call(imagePath);
   }
@@ -366,8 +387,7 @@ class _$ImageScannedStateImpl implements ImageScannedState {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? imagePath)? imageScannedState,
-    TResult Function()? initial,
+    TResult Function(List<String> imagePath)? imageScannedState,
     required TResult orElse(),
   }) {
     if (imageScannedState != null) {
@@ -380,7 +400,6 @@ class _$ImageScannedStateImpl implements ImageScannedState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(ImageScannedState value) imageScannedState,
-    required TResult Function(_Initial value) initial,
   }) {
     return imageScannedState(this);
   }
@@ -389,7 +408,6 @@ class _$ImageScannedStateImpl implements ImageScannedState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(ImageScannedState value)? imageScannedState,
-    TResult? Function(_Initial value)? initial,
   }) {
     return imageScannedState?.call(this);
   }
@@ -398,7 +416,6 @@ class _$ImageScannedStateImpl implements ImageScannedState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(ImageScannedState value)? imageScannedState,
-    TResult Function(_Initial value)? initial,
     required TResult orElse(),
   }) {
     if (imageScannedState != null) {
@@ -409,113 +426,13 @@ class _$ImageScannedStateImpl implements ImageScannedState {
 }
 
 abstract class ImageScannedState implements ImagescacnnedState {
-  const factory ImageScannedState({required final String? imagePath}) =
+  const factory ImageScannedState({required final List<String> imagePath}) =
       _$ImageScannedStateImpl;
 
-  String? get imagePath;
+  @override
+  List<String> get imagePath;
+  @override
   @JsonKey(ignore: true)
   _$$ImageScannedStateImplCopyWith<_$ImageScannedStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$InitialImplCopyWith<$Res> {
-  factory _$$InitialImplCopyWith(
-          _$InitialImpl value, $Res Function(_$InitialImpl) then) =
-      __$$InitialImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$InitialImplCopyWithImpl<$Res>
-    extends _$ImagescacnnedStateCopyWithImpl<$Res, _$InitialImpl>
-    implements _$$InitialImplCopyWith<$Res> {
-  __$$InitialImplCopyWithImpl(
-      _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$InitialImpl implements _Initial {
-  const _$InitialImpl();
-
-  @override
-  String toString() {
-    return 'ImagescacnnedState.initial()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$InitialImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String? imagePath) imageScannedState,
-    required TResult Function() initial,
-  }) {
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String? imagePath)? imageScannedState,
-    TResult? Function()? initial,
-  }) {
-    return initial?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? imagePath)? imageScannedState,
-    TResult Function()? initial,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(ImageScannedState value) imageScannedState,
-    required TResult Function(_Initial value) initial,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(ImageScannedState value)? imageScannedState,
-    TResult? Function(_Initial value)? initial,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(ImageScannedState value)? imageScannedState,
-    TResult Function(_Initial value)? initial,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Initial implements ImagescacnnedState {
-  const factory _Initial() = _$InitialImpl;
 }

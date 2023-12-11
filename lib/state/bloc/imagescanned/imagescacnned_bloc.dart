@@ -7,8 +7,12 @@ part 'imagescacnned_bloc.freezed.dart';
 
 class ImagescacnnedBloc extends Bloc<ImagescacnnedEvent, ImagescacnnedState> {
   ImagescacnnedBloc() : super(ImagescacnnedState.initial()) {
-    on<ImagescacnnedEvent>((event, emit) {
-      // TODO: implement event handler
+    on<GetImagePathEvent>((event, emit) {
+      print('in bloc');
+      List<String> imagepaths = state.imagePath + [event.imagepath];
+
+      print('images length${imagepaths.length}');
+      return emit(ImageScannedState(imagePath: imagepaths));
     });
   }
 }

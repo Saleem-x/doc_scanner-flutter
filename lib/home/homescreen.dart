@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:doc_scanner/home/viewpdfscreen.dart';
 import 'package:doc_scanner/state/bloc/imagescanned/imagescacnned_bloc.dart';
 import 'package:flutter/material.dart';
@@ -37,6 +36,7 @@ class HomeScreen extends StatelessWidget {
                                   final image = pw.MemoryImage(
                                     File(item).readAsBytesSync(),
                                   );
+
                                   pdf.addPage(
                                     pw.Page(
                                       build: (pw.Context context) {
@@ -74,53 +74,82 @@ class HomeScreen extends StatelessWidget {
                               horizontal: 10, vertical: 10),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: .9,
+                            childAspectRatio: .7,
                             mainAxisSpacing: 10,
                             crossAxisSpacing: 10,
                             crossAxisCount: 3,
                           ),
                           itemCount: state.imagePath.length,
                           itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onLongPress: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: const Text('Alert'),
-                                    content: Text(
-                                        'do you want to remove this Image'),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('no'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          context.read<ImagescacnnedBloc>().add(
-                                              DeleteimageEvent(
-                                                  idx: index,
-                                                  imgpath:
-                                                      state.imagePath[index]));
-                                        },
-                                        child: const Text('yes'),
-                                      )
-                                    ],
-                                  ),
-                                );
-                              },
+                            return SizedBox(
+                              // height: 200,
                               child: Padding(
                                 padding: const EdgeInsets.all(0),
-                                child: SizedBox(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: Image.file(
-                                      File(
-                                        state.imagePath[index],
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Stack(
+                                    children: [
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: FileImage(
+                                              File(
+                                                state.imagePath[index],
+                                              ),
+                                            ),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
                                       ),
-                                      fit: BoxFit.cover,
-                                    ),
+                                      Positioned(
+                                        top: 0,
+                                        right: 0,
+                                        child: IconButton(
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) => AlertDialog(
+                                                title: const Text('Alert'),
+                                                content: const Text(
+                                                    'do you want to remove this Image'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text('no'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      context
+                                                          .read<
+                                                              ImagescacnnedBloc>()
+                                                          .add(
+                                                            DeleteimageEvent(
+                                                              idx: index,
+                                                              imgpath: state
+                                                                      .imagePath[
+                                                                  index],
+                                                              imageslist: state
+                                                                  .imagePath,
+                                                            ),
+                                                          );
+
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: const Text('yes'),
+                                                  )
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 ),
                               ),

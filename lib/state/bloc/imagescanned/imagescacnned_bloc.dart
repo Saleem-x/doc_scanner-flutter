@@ -16,10 +16,18 @@ class ImagescacnnedBloc extends Bloc<ImagescacnnedEvent, ImagescacnnedState> {
     });
 
     on<DeleteimageEvent>((event, emit) {
-      List<String> imagepaths = state.imagePath;
+      List<String> imagepaths = [];
+
+      for (var item in event.imageslist) {
+        imagepaths.add(item);
+      }
 
       if (imagepaths[event.idx] == event.imgpath) {
-        imagepaths.removeAt(event.idx);
+        if (imagepaths.length == 1) {
+          imagepaths = [];
+        } else {
+          imagepaths.removeAt(event.idx);
+        }
       } else {
         int idx = imagepaths.indexWhere((element) => element == event.imgpath);
         imagepaths.removeAt(idx);

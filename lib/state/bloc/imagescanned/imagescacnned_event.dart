@@ -6,5 +6,7 @@ class ImagescacnnedEvent with _$ImagescacnnedEvent {
       GetImagePathEvent;
 
   const factory ImagescacnnedEvent.deleteimageEvent(
-      {required int idx, required String imgpath}) = DeleteimageEvent;
+      {required int idx,
+      required String imgpath,
+      required List<String> imageslist}) = DeleteimageEvent;
 }

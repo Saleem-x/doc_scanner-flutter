@@ -19,19 +19,22 @@ mixin _$ImagescacnnedEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String imagepath) getImagePath,
-    required TResult Function(int idx, String imgpath) deleteimageEvent,
+    required TResult Function(int idx, String imgpath, List<String> imageslist)
+        deleteimageEvent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String imagepath)? getImagePath,
-    TResult? Function(int idx, String imgpath)? deleteimageEvent,
+    TResult? Function(int idx, String imgpath, List<String> imageslist)?
+        deleteimageEvent,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String imagepath)? getImagePath,
-    TResult Function(int idx, String imgpath)? deleteimageEvent,
+    TResult Function(int idx, String imgpath, List<String> imageslist)?
+        deleteimageEvent,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -141,7 +144,8 @@ class _$GetImagePathEventImpl implements GetImagePathEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String imagepath) getImagePath,
-    required TResult Function(int idx, String imgpath) deleteimageEvent,
+    required TResult Function(int idx, String imgpath, List<String> imageslist)
+        deleteimageEvent,
   }) {
     return getImagePath(imagepath);
   }
@@ -150,7 +154,8 @@ class _$GetImagePathEventImpl implements GetImagePathEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String imagepath)? getImagePath,
-    TResult? Function(int idx, String imgpath)? deleteimageEvent,
+    TResult? Function(int idx, String imgpath, List<String> imageslist)?
+        deleteimageEvent,
   }) {
     return getImagePath?.call(imagepath);
   }
@@ -159,7 +164,8 @@ class _$GetImagePathEventImpl implements GetImagePathEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String imagepath)? getImagePath,
-    TResult Function(int idx, String imgpath)? deleteimageEvent,
+    TResult Function(int idx, String imgpath, List<String> imageslist)?
+        deleteimageEvent,
     required TResult orElse(),
   }) {
     if (getImagePath != null) {
@@ -216,7 +222,7 @@ abstract class _$$DeleteimageEventImplCopyWith<$Res> {
           $Res Function(_$DeleteimageEventImpl) then) =
       __$$DeleteimageEventImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int idx, String imgpath});
+  $Res call({int idx, String imgpath, List<String> imageslist});
 }
 
 /// @nodoc
@@ -232,6 +238,7 @@ class __$$DeleteimageEventImplCopyWithImpl<$Res>
   $Res call({
     Object? idx = null,
     Object? imgpath = null,
+    Object? imageslist = null,
   }) {
     return _then(_$DeleteimageEventImpl(
       idx: null == idx
@@ -242,6 +249,10 @@ class __$$DeleteimageEventImplCopyWithImpl<$Res>
           ? _value.imgpath
           : imgpath // ignore: cast_nullable_to_non_nullable
               as String,
+      imageslist: null == imageslist
+          ? _value._imageslist
+          : imageslist // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -249,16 +260,27 @@ class __$$DeleteimageEventImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$DeleteimageEventImpl implements DeleteimageEvent {
-  const _$DeleteimageEventImpl({required this.idx, required this.imgpath});
+  const _$DeleteimageEventImpl(
+      {required this.idx,
+      required this.imgpath,
+      required final List<String> imageslist})
+      : _imageslist = imageslist;
 
   @override
   final int idx;
   @override
   final String imgpath;
+  final List<String> _imageslist;
+  @override
+  List<String> get imageslist {
+    if (_imageslist is EqualUnmodifiableListView) return _imageslist;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_imageslist);
+  }
 
   @override
   String toString() {
-    return 'ImagescacnnedEvent.deleteimageEvent(idx: $idx, imgpath: $imgpath)';
+    return 'ImagescacnnedEvent.deleteimageEvent(idx: $idx, imgpath: $imgpath, imageslist: $imageslist)';
   }
 
   @override
@@ -267,11 +289,14 @@ class _$DeleteimageEventImpl implements DeleteimageEvent {
         (other.runtimeType == runtimeType &&
             other is _$DeleteimageEventImpl &&
             (identical(other.idx, idx) || other.idx == idx) &&
-            (identical(other.imgpath, imgpath) || other.imgpath == imgpath));
+            (identical(other.imgpath, imgpath) || other.imgpath == imgpath) &&
+            const DeepCollectionEquality()
+                .equals(other._imageslist, _imageslist));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, idx, imgpath);
+  int get hashCode => Object.hash(runtimeType, idx, imgpath,
+      const DeepCollectionEquality().hash(_imageslist));
 
   @JsonKey(ignore: true)
   @override
@@ -284,29 +309,32 @@ class _$DeleteimageEventImpl implements DeleteimageEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String imagepath) getImagePath,
-    required TResult Function(int idx, String imgpath) deleteimageEvent,
+    required TResult Function(int idx, String imgpath, List<String> imageslist)
+        deleteimageEvent,
   }) {
-    return deleteimageEvent(idx, imgpath);
+    return deleteimageEvent(idx, imgpath, imageslist);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String imagepath)? getImagePath,
-    TResult? Function(int idx, String imgpath)? deleteimageEvent,
+    TResult? Function(int idx, String imgpath, List<String> imageslist)?
+        deleteimageEvent,
   }) {
-    return deleteimageEvent?.call(idx, imgpath);
+    return deleteimageEvent?.call(idx, imgpath, imageslist);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String imagepath)? getImagePath,
-    TResult Function(int idx, String imgpath)? deleteimageEvent,
+    TResult Function(int idx, String imgpath, List<String> imageslist)?
+        deleteimageEvent,
     required TResult orElse(),
   }) {
     if (deleteimageEvent != null) {
-      return deleteimageEvent(idx, imgpath);
+      return deleteimageEvent(idx, imgpath, imageslist);
     }
     return orElse();
   }
@@ -346,10 +374,12 @@ class _$DeleteimageEventImpl implements DeleteimageEvent {
 abstract class DeleteimageEvent implements ImagescacnnedEvent {
   const factory DeleteimageEvent(
       {required final int idx,
-      required final String imgpath}) = _$DeleteimageEventImpl;
+      required final String imgpath,
+      required final List<String> imageslist}) = _$DeleteimageEventImpl;
 
   int get idx;
   String get imgpath;
+  List<String> get imageslist;
   @JsonKey(ignore: true)
   _$$DeleteimageEventImplCopyWith<_$DeleteimageEventImpl> get copyWith =>
       throw _privateConstructorUsedError;

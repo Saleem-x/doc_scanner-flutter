@@ -41,7 +41,9 @@ class HomeScreen extends StatelessWidget {
                                     pw.Page(
                                       build: (pw.Context context) {
                                         return pw.Center(
-                                          child: pw.Image(image),
+                                          child: pw.Image(
+                                            image,
+                                          ),
                                         );
                                       },
                                     ),
@@ -166,10 +168,12 @@ class HomeScreen extends StatelessWidget {
         onPressed: () async {
           String imgpath = await getImageFromCamera();
           log('image aan$imgpath');
-          // ignore: use_build_context_synchronously
-          context.read<ImagescacnnedBloc>().add(
-                GetImagePathEvent(imagepath: imgpath),
-              );
+          if (await File(imgpath).exists()) {
+            // ignore: use_build_context_synchronously
+            context.read<ImagescacnnedBloc>().add(
+                  GetImagePathEvent(imagepath: imgpath),
+                );
+          }
         },
         child: const Icon(
           Icons.scanner_outlined,
@@ -201,17 +205,17 @@ class HomeScreen extends StatelessWidget {
       success = await EdgeDetection.detectEdge(
         imagePath,
         canUseGallery: true,
-        androidScanTitle: 'Scanning', // use custom localizations for android
+        androidScanTitle: 'Scanning',
         androidCropTitle: 'Crop',
         androidCropBlackWhiteTitle: 'Black White',
         androidCropReset: 'Reset',
       );
-      print("success: $success");
+      log("success: $success");
 
       return imagePath;
     } catch (e) {
-      print(e);
-      return imagePath;
+      print('error aan $e ');
+      return 'error';
     }
   }
 

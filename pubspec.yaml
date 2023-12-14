@@ -43,6 +43,7 @@ dependencies:
   pdf: ^3.10.7
   permission_handler: ^10.0.0
   printing: ^5.11.1
+  url_launcher: ^6.2.2
 
 dev_dependencies:
   build_runner: ^2.4.7

@@ -8,6 +8,7 @@ import io.flutter.plugins.GeneratedPluginRegistrant
 import io.flutter.embedding.engine.FlutterEngine
 import android.content.Context
 import android.app.Activity
+import android.widget.Toast
 
 class MainActivity : FlutterActivity() {
 
@@ -34,7 +35,8 @@ class MainActivity : FlutterActivity() {
           .putExtra(Intent.EXTRA_TEXT, "response")
           .setType("text/plain")
 
-        setResult(Activity.RESULT_OK, intent)
+        setResult(Activity.RESULT_OK,intent)
+        // Toast.makeText(context,response,Toast.LENGTH_SHORT).show()
         finish()
       } else {
         result.notImplemented()

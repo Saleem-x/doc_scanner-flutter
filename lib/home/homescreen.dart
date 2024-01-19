@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:doc_scanner/home/viewpdfscreen.dart';
+// import 'package:doc_scanner/home/viewpdfscreen.dart';
+import 'package:flutter/services.dart';
 import 'package:doc_scanner/state/bloc/imagescanned/imagescacnned_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:edge_detection/edge_detection.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -17,59 +17,73 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Document Scanner'),
+      ),
       body: SafeArea(
         child: BlocBuilder<ImagescacnnedBloc, ImagescacnnedState>(
           builder: (context, state) {
             return state.imagePath.isEmpty
-                ? const Center(
-                    child: Text('scan images'),
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () async {
+                              String imgpath = await getImageFromCamera();
+                              log('image aan$imgpath');
+                              if (await File(imgpath).exists()) {
+                                // ignore: use_build_context_synchronously
+                                context.read<ImagescacnnedBloc>().add(
+                                      GetImagePathEvent(imagepath: imgpath),
+                                    );
+                              }
+                            },
+                            child: Container(
+                              height: MediaQuery.of(context).size.width / 2,
+                              width: MediaQuery.of(context).size.width / 3,
+                              decoration: const BoxDecoration(
+                                color: Colors.grey,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              child: const Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.add_box_rounded,
+                                      color: Colors.white,
+                                    ),
+                                    Text(
+                                      'scan images',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
                   )
                 : Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      state.imagePath.isNotEmpty
+                      /*  state.imagePath.isNotEmpty
                           ? IconButton(
-                              onPressed: () async {
-                                var pdf = pw.Document();
-                                for (var item in state.imagePath) {
-                                  final image = pw.MemoryImage(
-                                    File(item).readAsBytesSync(),
-                                  );
-
-                                  pdf.addPage(
-                                    pw.Page(
-                                      build: (pw.Context context) {
-                                        return pw.Center(
-                                          child: pw.Image(
-                                            image,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  );
-                                }
-                                String filepath = await savePdfFile(pdf);
-                                await Clipboard.setData(
-                                  ClipboardData(text: filepath),
-                                );
-
-                                Future.delayed(
-                                    const Duration(microseconds: 100), () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ViewPdfScreen(pdfpath: filepath),
-                                    ),
-                                  );
-                                });
-                              },
+                              onPressed: () async {},
                               icon: const Icon(
                                 Icons.picture_as_pdf,
                               ),
                             )
-                          : const SizedBox.shrink(),
+                          : const SizedBox.shrink(), */
                       Expanded(
                         child: GridView.builder(
                           padding: const EdgeInsets.symmetric(
@@ -81,90 +95,182 @@ class HomeScreen extends StatelessWidget {
                             crossAxisSpacing: 10,
                             crossAxisCount: 3,
                           ),
-                          itemCount: state.imagePath.length,
+                          itemCount: state.imagePath.length + 1,
                           itemBuilder: (context, index) {
-                            return SizedBox(
-                              // height: 200,
-                              child: Padding(
-                                padding: const EdgeInsets.all(0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Stack(
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: FileImage(
-                                              File(
-                                                state.imagePath[index],
-                                              ),
-                                            ),
-                                            fit: BoxFit.cover,
-                                          ),
+                            return index == state.imagePath.length
+                                ? InkWell(
+                                    onTap: () async {
+                                      String imgpath =
+                                          await getImageFromCamera();
+                                      log('image aan$imgpath');
+                                      if (await File(imgpath).exists()) {
+                                        // ignore: use_build_context_synchronously
+                                        context.read<ImagescacnnedBloc>().add(
+                                              GetImagePathEvent(
+                                                  imagepath: imgpath),
+                                            );
+                                      }
+                                    },
+                                    child: Container(
+                                      decoration: const BoxDecoration(
+                                        color: Colors.grey,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(10),
                                         ),
                                       ),
-                                      Positioned(
-                                        top: 0,
-                                        right: 0,
-                                        child: IconButton(
-                                          onPressed: () {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) => AlertDialog(
-                                                title: const Text('Alert'),
-                                                content: const Text(
-                                                    'do you want to remove this Image'),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text('no'),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      context
-                                                          .read<
-                                                              ImagescacnnedBloc>()
-                                                          .add(
-                                                            DeleteimageEvent(
-                                                              idx: index,
-                                                              imgpath: state
-                                                                      .imagePath[
-                                                                  index],
-                                                              imageslist: state
-                                                                  .imagePath,
-                                                            ),
-                                                          );
-
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: const Text('yes'),
-                                                  )
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                          icon: const Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                          ),
+                                      child: const Center(
+                                        child: Icon(
+                                          Icons.add_box_rounded,
+                                          color: Colors.white,
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
+                                      ),
+                                    ),
+                                  )
+                                : SizedBox(
+                                    // height: 200,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(0),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                  image: FileImage(
+                                                    File(
+                                                      state.imagePath[index],
+                                                    ),
+                                                  ),
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              top: 0,
+                                              right: 0,
+                                              child: IconButton(
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) =>
+                                                        AlertDialog(
+                                                      title:
+                                                          const Text('Alert'),
+                                                      content: const Text(
+                                                          'do you want to remove this Image'),
+                                                      actions: [
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child:
+                                                              const Text('no'),
+                                                        ),
+                                                        TextButton(
+                                                          onPressed: () {
+                                                            context
+                                                                .read<
+                                                                    ImagescacnnedBloc>()
+                                                                .add(
+                                                                  DeleteimageEvent(
+                                                                    idx: index,
+                                                                    imgpath: state
+                                                                            .imagePath[
+                                                                        index],
+                                                                    imageslist:
+                                                                        state
+                                                                            .imagePath,
+                                                                  ),
+                                                                );
+
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child:
+                                                              const Text('yes'),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
+                                                icon: const Icon(
+                                                  Icons.delete,
+                                                  color: Colors.red,
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
                           },
                         ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.red,
+                            ),
+                            onPressed: () async {
+                              const MethodChannel channel = MethodChannel(
+                                  'com.example.doc_scanner/response');
+                              var pdf = pw.Document();
+                              for (var item in state.imagePath) {
+                                final image = pw.MemoryImage(
+                                  File(item).readAsBytesSync(),
+                                );
+
+                                pdf.addPage(
+                                  pw.Page(
+                                    build: (pw.Context context) {
+                                      return pw.Center(
+                                        child: pw.Image(
+                                          image,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+                              }
+                              String filepath = await savePdfFile(pdf);
+                              /*   await Clipboard.setData(
+                                  ClipboardData(text: filepath),
+                                ); */
+
+                              Future.delayed(const Duration(microseconds: 100),
+                                  () async {
+                                /* Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ViewPdfScreen(pdfpath: filepath),
+                                    ),
+                                  ); */
+
+                                await channel.invokeMethod(
+                                    'sendResponse', filepath);
+                              });
+                            },
+                            child: const Text(
+                              'Confirm and generate Pdf',
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
                       )
                     ],
                   );
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      /* floatingActionButton: FloatingActionButton(
         onPressed: () async {
           String imgpath = await getImageFromCamera();
           log('image aan$imgpath');
@@ -178,7 +284,7 @@ class HomeScreen extends StatelessWidget {
         child: const Icon(
           Icons.scanner_outlined,
         ),
-      ),
+      ), */
     );
   }
 
